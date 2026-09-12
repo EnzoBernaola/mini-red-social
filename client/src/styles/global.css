@@ -1,0 +1,47 @@
+@import "./variables.css";
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Ubuntu,
+    sans-serif;
+
+  background: var(--bg);
+  color: var(--text);
+
+  font-size: 15px;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+/* SCROLL */
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:var(--border);
+  border-radius:10px;
+}

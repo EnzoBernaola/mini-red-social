@@ -1,0 +1,150 @@
+/* ===== PAGE ===== */
+
+.messages-page{
+  max-width:640px;
+  margin:auto;
+  padding:20px 16px;
+}
+
+/* HEADER */
+
+.messages-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  margin-bottom:18px;
+}
+
+.messages-header h1{
+  font-size:20px;
+  font-weight:700;
+}
+
+.back-button{
+  font-size:13px;
+  color:var(--text-muted);
+
+  padding:6px 8px;
+  border-radius:8px;
+
+  transition:.15s;
+}
+
+.back-button:hover{
+  background:var(--surface);
+}
+
+/* STATES */
+
+.messages-loading,
+.messages-empty{
+  font-size:14px;
+  color:var(--text-muted);
+  margin-top:10px;
+}
+
+/* LIST */
+
+.conversations-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+/* CARD */
+
+.conversation-card{
+  display:flex;
+  gap:12px;
+  align-items:center;
+
+  padding:12px;
+
+  background:var(--surface);
+  border:1px solid var(--border);
+
+  border-radius:var(--radius);
+
+  transition:.15s;
+}
+
+.conversation-card:hover{
+  border-color:var(--primary);
+  transform:translateY(-1px);
+  box-shadow:var(--shadow-sm);
+}
+
+/* AVATAR */
+
+.conversation-avatar{
+  width:48px;
+  height:48px;
+
+  border-radius:50%;
+  object-fit:cover;
+}
+
+/* MAIN */
+
+.conversation-main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+/* TOP ROW */
+
+.conversation-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.conversation-user{
+  font-weight:600;
+  font-size:14px;
+}
+
+.conversation-time{
+  font-size:12px;
+  color:var(--text-muted);
+}
+
+/* BOTTOM ROW */
+
+.conversation-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+
+.conversation-last-message{
+  font-size:13px;
+  color:var(--text-muted);
+
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+
+  max-width:200px;
+}
+
+/* BADGE */
+
+.badge{
+  background:var(--primary);
+  color:white;
+
+  font-size:11px;
+  font-weight:600;
+
+  padding:3px 7px;
+
+  border-radius:999px;
+
+  min-width:20px;
+  text-align:center;
+}

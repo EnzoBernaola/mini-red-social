@@ -1,0 +1,12 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno y secretos - NUNCA subir esto
+.env
+
+# Archivos subidos localmente (ya no se usan tras migrar a Cloudinary,
+# pero por las dudas quedan afuera del repositorio)
+uploads/
+
+# Logs
+*.log

@@ -1,0 +1,51 @@
+.btn {
+  border: none;
+  border-radius: 10px;
+
+  padding: 9px 15px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  transition: .15s;
+}
+
+.btn:active{
+  transform:scale(0.95);
+}
+
+.btn-primary{
+
+  background:var(--primary);
+  color:white;
+
+}
+
+.btn-primary:hover{
+  background:var(--primary-hover);
+}
+
+.btn-action{
+
+  background:transparent;
+  color:var(--text-muted);
+
+}
+
+.btn-action:hover{
+  background:var(--surface-2);
+  color:var(--text);
+}
+
+.btn-danger{
+
+  background:var(--danger);
+  color:white;
+
+}

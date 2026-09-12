@@ -1,0 +1,68 @@
+/* =========================
+   LIGHT THEME (default)
+========================= */
+
+:root {
+
+  /* BACKGROUND GENERAL */
+  --bg: #eef0f4;
+
+  /* CARDS / SUPERFICIES */
+  --surface: #ffffff;
+  --surface-2: #e7eaef;
+
+  /* BORDERS */
+  --border: #d7dce3;
+
+  /* TEXT */
+  --text: #14171f;
+  --text-muted: #5b6472;
+
+  /* BRAND */
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+
+  /* EFFECTS */
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.10);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+/* =========================
+   DARK THEME
+========================= */
+
+body.dark {
+
+  /* BACKGROUNDS */
+  --bg: #0d0f13;
+  --surface: #16181d;
+  --surface-2: #1e2128;
+
+  /* BORDERS */
+  --border: #262a32;
+
+  /* TEXT */
+  --text: #e8eaed;
+  --text-muted: #9198a5;
+
+  /* BRAND */
+  --primary: #3b82f6;
+  --primary-hover: #529bfb;
+
+  /* DANGER */
+  --danger: #ef4444;
+  --danger-hover: #f4696a;
+
+  /* EFFECTS */
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
