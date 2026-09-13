@@ -98,7 +98,7 @@ const filtered = data.filter(
 
 setNotifications(filtered);
 
-setCount(0);
+setCount(filtered.filter(n => !n.isRead).length);
 
       } catch (error) {
 

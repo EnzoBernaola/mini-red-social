@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 
 import { MessageProvider } from "./context/MessageContext";
 import { NotificationProvider, useNotifications } from "./context/NotificationContext";
+import { API_URL } from "./api/config";
 
 import Chat from "./pages/Chat";
 import Login from "./pages/Login";
@@ -130,7 +131,7 @@ const login = (newToken) => {
 
 
         const res = await fetch(
-          "http://localhost:5000/api/users/me",
+          `${API_URL}/api/users/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`
