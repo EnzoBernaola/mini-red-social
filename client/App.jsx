@@ -1,4 +1,5 @@
 import "./styles/global.css";
+import { API_URL } from "./api/config";
 import "./styles/buttons.css";
 import "./styles/forms.css";
 import "./styles/layout.css";
@@ -346,4 +347,3 @@ const login = (newToken) => {
 
 
 export default App;
-import { API_URL } from "./api/config";
