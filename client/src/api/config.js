@@ -3,4 +3,4 @@
 // En producción, Vite reemplaza esto con el valor de VITE_API_URL
 // que se configure en el panel de Vercel (o donde se deployee).
 export const API_URL =
-  import.meta.env.VITE_API_URL || "https://mini-red-social-xwc0.onrender.com";
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
