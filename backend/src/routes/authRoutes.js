@@ -1,6 +1,6 @@
 // src/routes/authRoutes.js
 import express from "express";
-import { registerUser, loginUser, getCurrentUser } from "../controllers/authController.js";
+import { registerUser, loginUser, getCurrentUser, forgotPassword, resetPassword } from "../controllers/authController.js";
 import protect from "../middleware/authMiddleware.js";
 import validate from "../middleware/validate.js";
 import { registerValidation, loginValidation } from "../validators/authValidators.js";
@@ -16,5 +16,11 @@ router.post("/login", loginValidation, validate, loginUser);
 
 // 👤 Obtener usuario actual (protegido)
 router.get("/me", protect, getCurrentUser);
+
+// ✉️ Olvidé mi contraseña
+router.post("/forgot-password", forgotPassword);
+
+// 🔁 Restablecer contraseña
+router.post("/reset-password/:token", resetPassword);
 
 export default router;

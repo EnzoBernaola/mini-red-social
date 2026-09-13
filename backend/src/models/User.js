@@ -53,7 +53,17 @@ avatar: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
       }
-    ]
+    ],
+
+    // 🔑 Recuperación de contraseña
+    resetPasswordToken: {
+      type: String,
+      select: false
+    },
+    resetPasswordExpires: {
+      type: Date,
+      select: false
+    }
   },
   {
     timestamps: true

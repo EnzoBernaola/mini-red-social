@@ -16,6 +16,8 @@ import { API_URL } from "./api/config";
 import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
 import Feed from "./pages/Feed";
 import Notification from "./components/Notification";
@@ -258,6 +260,20 @@ const login = (newToken) => {
               <Route
                 path="/register"
                 element={<Register />}
+              />
+
+
+
+              <Route
+                path="/forgot-password"
+                element={<ForgotPassword />}
+              />
+
+
+
+              <Route
+                path="/reset-password/:token"
+                element={<ResetPassword />}
               />
 
 

@@ -84,6 +84,12 @@ navigate("/feed");
         </form>
 
         <p className="login-register">
+          <span onClick={() => navigate("/forgot-password")}>
+            ¿Olvidaste tu contraseña?
+          </span>
+        </p>
+
+        <p className="login-register">
           ¿No tenés cuenta?
 
           <span onClick={() => navigate("/register")}>

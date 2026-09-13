@@ -55,11 +55,16 @@ export function OnlineProvider({ children, user }) {
     }
 
 
-    socket.emit(
-      "join",
-      user._id
-    );
+    const rejoin = () => {
+      socket.emit("join", user._id);
+    };
 
+    rejoin();
+
+    // El navegador puede cortar la conexión al pasar la pestaña a
+    // segundo plano; socket.io la reconecta solo, pero el servidor
+    // necesita el "join" de nuevo para volver a marcarnos online.
+    socket.on("connect", rejoin);
 
     return () => {
 
@@ -67,6 +72,8 @@ export function OnlineProvider({ children, user }) {
         "onlineUsers",
         handleOnlineUsers
       );
+
+      socket.off("connect", rejoin);
 
     };
 
