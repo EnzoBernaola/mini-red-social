@@ -55,6 +55,8 @@ export default function Notification() {
 
     await markAsRead(n._id);
 
+    const esDeUnPost = ["like_post", "comment_post", "like_comment", "new_post"].includes(n.type);
+
     if (n.post) {
 
       const postId = n.post?._id || n.post;
@@ -63,6 +65,14 @@ export default function Notification() {
         navigate(`/post/${postId}`);
         return;
       }
+    }
+
+    // Si el tipo de notificación depende de un post pero ya no lo trae
+    // (porque el post se borró), no tiene sentido mandar al perfil como
+    // si la notificación fuera de otra cosa.
+    if (esDeUnPost) {
+      alert("El posteo relacionado a esta notificación ya no existe.");
+      return;
     }
 
     if (n.fromUser?.username) {

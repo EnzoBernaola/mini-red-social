@@ -227,12 +227,28 @@ export const deletePost = async (req, res) => {
     if (post.user.toString() !== req.user.id)
       return res.status(403).json({ msg: "No autorizado" });
 
-    await Post.deleteOne({ _id: post._id });
+    // Reposts que dependen de este post: si no los borramos, quedan
+    // apuntando a un post que ya no existe.
+    const orphanReposts = await Post.find({ repostedFrom: post._id }).select("_id");
+    const orphanRepostIds = orphanReposts.map((r) => r._id);
+
+    await Post.deleteMany({
+      _id: { $in: [post._id, ...orphanRepostIds] }
+    });
+
+    // Notificaciones (like/comentario/etc) que apuntaban a este post:
+    // si no las borramos, quedan "huérfanas" y al hacer click no llevan
+    // a ningún lado.
+    await Notification.deleteMany({ post: post._id });
 
     const io = req.app.get("io");
 
     io.emit("postDeleted", {
       postId: post._id
+    });
+
+    orphanRepostIds.forEach((id) => {
+      io.emit("postDeleted", { postId: id });
     });
 
     res.json({ msg: "Post eliminado" });
