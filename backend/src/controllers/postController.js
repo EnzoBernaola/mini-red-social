@@ -264,8 +264,13 @@ export const editPost = async (req, res) => {
       return res.status(400).json({ msg: "No se puede editar un repost" });
     }
 
-    post.content = content.trim();
-    post.edited = true;
+    const nuevoContenido = content.trim();
+
+    if (nuevoContenido !== post.content) {
+      post.edited = true;
+    }
+
+    post.content = nuevoContenido;
     await post.save();
 
     const updated = await Post.findById(post._id)
