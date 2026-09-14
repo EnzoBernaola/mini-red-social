@@ -63,7 +63,12 @@ const postSchema = new mongoose.Schema(
       }
     ],
 
-    comments: [commentSchema]
+    comments: [commentSchema],
+
+    edited: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true

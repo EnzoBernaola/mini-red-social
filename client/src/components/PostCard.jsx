@@ -12,6 +12,7 @@ const PostCard = ({
   setCommentText,
   handleLike,
   handleDelete,
+  handleEditPost,
   handleLikeComment,
   handleDeleteComment,
   handleComment,
@@ -20,6 +21,8 @@ const PostCard = ({
 }) => {
 
   const [showAllComments, setShowAllComments] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState("");
 
   const isRepost = !!post.repostedFrom;
 
@@ -27,6 +30,23 @@ const PostCard = ({
   const displayedPost = isRepost
     ? post.repostedFrom
     : post;
+
+  const isOwner = displayedPost.user?._id === userId;
+
+  const startEditing = () => {
+    setEditValue(displayedPost.content || "");
+    setIsEditing(true);
+  };
+
+  const cancelEditing = () => {
+    setIsEditing(false);
+  };
+
+  const saveEditing = async () => {
+    if (!editValue.trim()) return;
+    await handleEditPost(displayedPost._id, editValue.trim());
+    setIsEditing(false);
+  };
 
   const originalUser = displayedPost.user;
 
@@ -118,9 +138,29 @@ const PostCard = ({
 
       {!isRepost && (
         <>
-          <p className="post-content">
-            {displayedPost.content}
-          </p>
+          {isEditing ? (
+            <div className="post-edit">
+              <textarea
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                maxLength={2000}
+              />
+
+              <div className="post-edit-actions">
+                <Button onClick={saveEditing}>Guardar</Button>
+                <Button variant="action" onClick={cancelEditing}>
+                  Cancelar
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <p className="post-content">
+              {displayedPost.content}
+              {displayedPost.edited && (
+                <span className="edited-tag"> (editado)</span>
+              )}
+            </p>
+          )}
 
           {displayedPost.image && (
             <img
@@ -165,6 +205,18 @@ const PostCard = ({
             }
           >
             🔁 Repostear
+          </Button>
+        )}
+
+
+        {/* Editar: solo el texto, solo el dueño, y nunca en un repost */}
+
+        {!isRepost && isOwner && !isEditing && (
+          <Button
+            variant="action"
+            onClick={startEditing}
+          >
+            Editar
           </Button>
         )}
 

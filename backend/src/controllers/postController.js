@@ -36,52 +36,38 @@ export const getFeed = async (req, res) => {
   try {
 
     const user = await User.findById(req.user.id);
-    const followingIds = user.following || [];
+    const followingIds = (user.following || []).map(id => id.toString());
 
-    let posts;
+    // Prioridad: los tuyos y los de la gente que seguís van primero
+    const priorityIds = new Set([...followingIds, req.user.id]);
 
-
-    if (followingIds.length > 0) {
-
-      posts = await Post.find({
-        user: { 
-          $in: [...followingIds, req.user.id]
-        }
-      })
+    const posts = await Post.find()
       .populate("user", "username avatar")
       .populate("comments.user", "username avatar")
       .populate({
-        path:"repostedFrom",
-        populate:{
-          path:"user",
-          select:"username avatar"
+        path: "repostedFrom",
+        populate: {
+          path: "user",
+          select: "username avatar"
         }
       })
-      .sort({ createdAt:-1});
+      .sort({ createdAt: -1 });
 
+    // Nunca queda vacío: se muestra toda la red, solo que lo que seguís
+    // aparece arriba. Dentro de cada grupo, se ordena por fecha.
+    const sorted = posts.sort((a, b) => {
 
-    } else {
+      const aIsPriority = priorityIds.has(a.user?._id?.toString());
+      const bIsPriority = priorityIds.has(b.user?._id?.toString());
 
+      if (aIsPriority !== bIsPriority) {
+        return aIsPriority ? -1 : 1;
+      }
 
-      posts = await Post.find()
-        .populate("user", "username avatar")
-        .populate("comments.user", "username avatar")
-        .populate({
-          path:"repostedFrom",
-          populate:{
-            path:"user",
-            select:"username avatar"
-          }
-        })
-        .sort({ createdAt:-1})
-        .limit(20);
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
 
-
-    }
-
-
-    res.json(posts);
-
+    res.json(sorted);
 
   } catch(error){
     handleError(error, res, "Error obteniendo feed");
@@ -255,6 +241,48 @@ export const deletePost = async (req, res) => {
 
   } catch (error) {
     handleError(error, res, "Error eliminando post");
+  }
+};
+
+// Editar el texto de un post (no la imagen, ni si es un repost)
+export const editPost = async (req, res) => {
+  try {
+
+    const { content } = req.body;
+
+    if (!content || !content.trim()) {
+      return res.status(400).json({ msg: "El posteo no puede quedar vacío" });
+    }
+
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ msg: "Post no encontrado" });
+
+    if (post.user.toString() !== req.user.id)
+      return res.status(403).json({ msg: "No autorizado" });
+
+    if (post.repostedFrom) {
+      return res.status(400).json({ msg: "No se puede editar un repost" });
+    }
+
+    post.content = content.trim();
+    post.edited = true;
+    await post.save();
+
+    const updated = await Post.findById(post._id)
+      .populate("user", "username avatar")
+      .populate("comments.user", "username avatar")
+      .populate({
+        path: "repostedFrom",
+        populate: { path: "user", select: "username avatar" }
+      });
+
+    const io = req.app.get("io");
+    io.emit("postUpdated", updated);
+
+    res.json(updated);
+
+  } catch (error) {
+    handleError(error, res, "Error editando post");
   }
 };
 

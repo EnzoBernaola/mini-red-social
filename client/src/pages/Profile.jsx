@@ -165,6 +165,32 @@ export default function Profile() {
     );
   };
 
+  const handleRepost = async (postId) => {
+
+    try {
+
+      await api.post(`/posts/${postId}/repost`);
+
+    } catch (error) {
+      console.error("Error haciendo repost:", error);
+    }
+  };
+
+  const handleEditPost = async (postId, content) => {
+
+    try {
+
+      const updated = await api.put(`/posts/${postId}`, { content });
+
+      setPosts(prev =>
+        prev.map(p => (p._id === postId ? updated : p))
+      );
+
+    } catch (error) {
+      console.error("Error editando post:", error);
+    }
+  };
+
   // =========================
   // FOLLOW
   // =========================
@@ -283,6 +309,8 @@ export default function Profile() {
               setCommentText={setCommentText}
               handleLike={handleLike}
               handleDelete={deletePost}
+              handleRepost={handleRepost}
+              handleEditPost={handleEditPost}
               handleLikeComment={handleLikeComment}
               handleDeleteComment={deleteComment}
               handleComment={handleComment}

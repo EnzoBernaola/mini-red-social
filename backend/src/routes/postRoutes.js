@@ -3,6 +3,7 @@ import {
   getPosts,
   getPostById,
   createPost,
+  editPost,
   deletePost,
   likePost,
   commentPost,
@@ -45,5 +46,8 @@ router.delete("/:postId/comment/:commentId", protect, deleteComment);
 
 // borrar post
 router.delete("/:id", protect, deletePost);
+
+// editar (solo texto) un post
+router.put("/:id", protect, editPost);
 
 export default router;

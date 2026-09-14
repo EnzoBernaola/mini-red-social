@@ -281,6 +281,34 @@ export default function usePostSocket(setPosts) {
 
 
     // =========================
+    // POST EDITADO
+    // =========================
+
+    const handlePostUpdated = (updatedPost) => {
+
+      setPosts((prev) =>
+        prev.map((p) => {
+
+          if (p._id === updatedPost._id) {
+            return updatedPost;
+          }
+
+          // Reposts que muestran este post como original
+          if (p.repostedFrom?._id === updatedPost._id) {
+            return {
+              ...p,
+              repostedFrom: updatedPost
+            };
+          }
+
+          return p;
+        })
+      );
+
+    };
+
+
+    // =========================
     // ELIMINAR POST
     // =========================
 
@@ -330,6 +358,11 @@ export default function usePostSocket(setPosts) {
     );
 
     socket.on(
+      "postUpdated",
+      handlePostUpdated
+    );
+
+    socket.on(
       "postDeleted",
       handlePostDeleted
     );
@@ -369,6 +402,11 @@ export default function usePostSocket(setPosts) {
       socket.off(
         "postReposted",
         handlePostReposted
+      );
+
+      socket.off(
+        "postUpdated",
+        handlePostUpdated
       );
 
       socket.off(

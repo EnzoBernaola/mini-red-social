@@ -106,11 +106,9 @@ const fetchPosts = async () => {
 
     if (!Array.isArray(data)) return;
 
-    const ordered = data.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
-
-    setPosts(ordered);
+    // El orden (gente que seguís primero, después el resto por fecha)
+    // ya viene armado del backend, no lo reordenamos acá.
+    setPosts(data);
 
   } catch (error) {
     console.error("Error obteniendo posts:", error);
@@ -206,6 +204,28 @@ const handleRepost = async (id) => {
   }
 
 };
+
+
+
+  /* ========================== ✏️ EDITAR POST ========================== */
+
+  const handleEditPost = async (id, content) => {
+
+    try {
+
+      const updated = await api.put(`/posts/${id}`, { content });
+
+      setPosts((prev) =>
+        prev.map((p) =>
+          p._id === id ? updated : p
+        )
+      );
+
+    } catch (error) {
+      console.error("Error editando post:", error);
+    }
+
+  };
 
 
 
@@ -410,6 +430,7 @@ return (
           handleDeleteComment={handleDeleteComment}
           handleComment={handleComment}
           handleRepost={handleRepost}
+          handleEditPost={handleEditPost}
           formatDate={formatDate}
         />
       ))}

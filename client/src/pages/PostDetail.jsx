@@ -155,6 +155,21 @@ export default function PostDetail() {
   };
 
 
+  const handleEditPost = async (id, content) => {
+
+    try {
+
+      await api.put(`/posts/${id}`, { content });
+
+      fetchPost();
+
+    } catch (error) {
+      console.error("Error editando post:", error);
+    }
+
+  };
+
+
 
   if (loading) {
     return <p>Cargando...</p>;
@@ -183,6 +198,7 @@ export default function PostDetail() {
         handleLike={handleLike}
         handleDelete={handleDelete}
         handleRepost={handleRepost}
+        handleEditPost={handleEditPost}
         handleLikeComment={handleLikeComment}
         handleDeleteComment={handleDeleteComment}
         handleComment={handleComment}

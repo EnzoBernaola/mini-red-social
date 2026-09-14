@@ -224,15 +224,34 @@ hr{
   margin: 6px 0;
 }
 
-.post .post-image {
-  display: block;
+.post .post-image{
+  border-radius:12px;
+  max-height:380px;
+  object-fit:cover;
+}
+
+.post .edited-tag {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.post .post-edit textarea {
   width: 100%;
-  max-width: 100%;
-  max-height: 380px;
-  height: auto;
-  object-fit: contain;
-  border-radius: 12px;
-  margin: 0 auto;
+  min-height: 80px;
+  resize: vertical;
+  font: inherit;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.post .post-edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 /* DATE */
