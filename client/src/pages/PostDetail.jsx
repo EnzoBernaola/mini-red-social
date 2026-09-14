@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import PostCard from "../components/PostCard";
@@ -7,13 +7,15 @@ import api from "../api/api";
 export default function PostDetail() {
 
   const { postId } = useParams();
+  const navigate = useNavigate();
 
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const [commentText, setCommentText] = useState({});
 
-  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+  const userId = token ? JSON.parse(atob(token.split(".")[1])).id : null;
 
 
   const fetchPost = async () => {
@@ -122,6 +124,37 @@ export default function PostDetail() {
   };
 
 
+  const handleDelete = async (id) => {
+
+    try {
+
+      await api.delete(`/posts/${id}`);
+
+      // Ya no queda nada que mostrar en esta página
+      navigate("/feed");
+
+    } catch (error) {
+      console.error("Error eliminando post:", error);
+    }
+
+  };
+
+
+  const handleRepost = async (id) => {
+
+    try {
+
+      await api.post(`/posts/${id}/repost`);
+
+      fetchPost();
+
+    } catch (error) {
+      console.error("Error haciendo repost:", error);
+    }
+
+  };
+
+
 
   if (loading) {
     return <p>Cargando...</p>;
@@ -148,7 +181,8 @@ export default function PostDetail() {
         commentText={commentText}
         setCommentText={setCommentText}
         handleLike={handleLike}
-        handleDelete={() => {}}
+        handleDelete={handleDelete}
+        handleRepost={handleRepost}
         handleLikeComment={handleLikeComment}
         handleDeleteComment={handleDeleteComment}
         handleComment={handleComment}
